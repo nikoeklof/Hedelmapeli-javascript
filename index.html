@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hedelmäpeli</title>
+    <link rel="stylesheet" href="style.css">
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+</head>
+
+<body>
+    <div id="header">
+        <h1 class="main-header">Hedelmäpeli</h1>
+        <div id="navbar">
+            <button class="btn-header" href="#" onclick="saveGame()">Save game</button>
+            <button class="btn-header" href="#" onclick="deposit()">Deposit coins</button>
+            <button class="btn-header" href="#" onclick="withdraw()">Withdraw coins</button>
+        </div>
+    </div>
+    <div id="gamecontainer">
+        <h2 id="winAmount"></h2>
+        <table class="mainBox">
+            <thead>
+                <tr>
+                    <th><img src="img/banana.svg" width="128px" alt=""></th>
+                    <th><img src="img/cherry.svg" width="128px" alt=""></th>
+                    <th><img src="img/orange.svg" width="128px" alt=""></th>
+                </tr>
+            </thead>
+            <tr class="ui">
+                <td class="bottom-ui"><button class="btn-game" onclick="lockButton()">Lock</button></td>
+                <td class="bottom-ui"><button class="btn-game" onclick="lockButton()">Lock</button></td>
+                <td class="bottom-ui"><button class="btn-game" onclick="lockButton()">Lock</button></td>
+            </tr>
+            <tr class="ui2">
+                <td class="bottom-ui2"></td>
+                <td class="bottom-ui2">Coins: <span id="coins"></span></td>
+                <td class="bottom-ui2"><button class="btn-game" onclick="spin()">Spin</button></td>
+            </tr>
+        </table>
+
+
+    </div>
+
+    <script src="main.js"></script>
+</body>
+
+</html>

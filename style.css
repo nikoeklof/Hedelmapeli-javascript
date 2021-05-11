@@ -1,0 +1,97 @@
+body {
+    font-family: 'poppins';
+    background-color: rgba(1, 224, 245, 0.287);
+}
+
+button {
+    cursor: pointer;
+}
+
+#header {
+    margin-top: -8px;
+    margin-left: -8px;
+    margin-right: -8px;
+    min-width: 90vw;
+    padding: .15em;
+    text-align: center;
+    text-transform: uppercase;
+    background-color: rgba(0, 143, 76, 0.616);
+}
+
+#navbar {
+    padding: .6em;
+}
+
+#winAmount {
+    height: 30px;
+    text-align: center;
+}
+
+.btn-header {
+    font-size: 1.1rem;
+    color: #000;
+    padding: .7rem;
+    border: 2px solid rgb(53, 46, 46);
+    border-radius: 2em;
+    word-break: keep-all;
+    margin: 1em;
+    background-color: rgba(255, 255, 255, 0.438);
+    text-decoration: none;
+}
+
+.btn-game {
+    text-transform: uppercase;
+    padding: 1em;
+    font-size: 1.2em;
+    color: rgb(255, 255, 255);
+    background-color: rgba(1, 39, 251, 0.52);
+    border: 3px solid rgb(2, 1, 1);
+    border-radius: 5px;
+}
+
+.btn-game:hover {
+    background-color: rgba(1, 38, 251, 0.267);
+}
+
+.btn-game:active {
+    background-color: rgba(1, 38, 251, 0.616);
+    transform: translateY(4px);
+}
+
+#gamecontainer {
+    margin: auto;
+    overflow: hidden;
+    padding: 2em;
+}
+
+#gamecontainer table {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.mainbox {
+    padding: .5em;
+    text-align: center;
+}
+
+.mainbox,
+th,
+td,
+tr {
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.212);
+    padding: .75em;
+    border: 3px solid black;
+}
+
+.ui td {
+    background-color: rgba(1, 225, 245, 0.849);
+    text-align: center;
+    border: none;
+}
+
+.ui2 td {
+    background-color: rgba(1, 225, 245, 0.849);
+    text-align: center;
+    
+}
