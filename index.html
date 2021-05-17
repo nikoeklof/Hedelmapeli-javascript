@@ -14,35 +14,94 @@
     <div id="header">
         <h1 class="main-header">Hedelmäpeli</h1>
         <div id="navbar">
-            <button class="btn-header" href="#" onclick="saveGame()">Save game</button>
-            <button class="btn-header" href="#" onclick="deposit()">Deposit coins</button>
-            <button class="btn-header" href="#" onclick="withdraw()">Withdraw coins</button>
+            <button class="btn-header" type="button" onclick="saveGame()">Tallenna peli</button>
+            <button class="btn-header" type="button" onclick="deposit()">Lisää kolikoita</button>
+            <button class="btn-header" type="button" onclick="withdraw()">Nosta voittoja</button>
         </div>
     </div>
-    <div id="gamecontainer">
-        <h2 id="winAmount"></h2>
-        <table class="mainBox">
-            <thead>
-                <tr>
-                    <th><img src="img/banana.svg" width="128px" alt=""></th>
-                    <th><img src="img/cherry.svg" width="128px" alt=""></th>
-                    <th><img src="img/orange.svg" width="128px" alt=""></th>
+    <main id="table">
+        <div id="gamecontainer">
+            <h2 id="winAmount"></h2>
+            <table class="mainBox">
+                <thead>
+                    <tr>
+                        <th id="roll1"><img src="img/banana.svg" width="128px" alt=""></th>
+                        <th id="roll2"><img src="img/cherry.svg" width="128px" alt=""></th>
+                        <th id="roll3"><img src="img/orange.svg" width="128px" alt=""></th>
+                    </tr>
+                </thead>
+                <tr class="ui">
+                    <td class="bottom-ui" id="lock1">
+                        <button class="btn-game" onclick="lockButton('lock1')">Lukitse</button></td>
+                    <td class="bottom-ui" id="lock2">
+                        <button class="btn-game" onclick="lockButton('lock2')">Lukitse</button></td>
+                    <td class="bottom-ui" id="lock3">
+                        <button class="btn-game" onclick="lockButton('lock3')">Lukitse</button>
+                    </td>
                 </tr>
-            </thead>
-            <tr class="ui">
-                <td class="bottom-ui"><button class="btn-game" onclick="lockButton()">Lock</button></td>
-                <td class="bottom-ui"><button class="btn-game" onclick="lockButton()">Lock</button></td>
-                <td class="bottom-ui"><button class="btn-game" onclick="lockButton()">Lock</button></td>
-            </tr>
-            <tr class="ui2">
-                <td class="bottom-ui2"></td>
-                <td class="bottom-ui2">Coins: <span id="coins"></span></td>
-                <td class="bottom-ui2"><button class="btn-game" onclick="spin()">Spin</button></td>
-            </tr>
-        </table>
+                <tr class="ui2">
+                    <td class="bottom-ui2">Viimeisin voitto: <br><span id="lastWinAmount">0</span></td>
+                    <td class="bottom-ui2">Kolikot: <br><span id="coins">0</span></td>
+                    <td id="playbutton" class="bottom-ui2"><button class="btn-game spinbutton" onclick="spin()">Pelaa</button></td>
+                </tr>
+                <tr class="ui3">
+                    <td id="betAmountMinus"> <button class="btn-game" onclick="betAmountRemove()">Vähennä</button></td>
+                    <td id="betAmount">Panos: <br><span id="betAmountplayer"></span> Kolikkoa</td>
+                    <td id="betAmountPlus"><button class="btn-game" onclick="betAmountAdd()">Lisää</button></td>
+                </tr>
+            </table>
 
 
-    </div>
+        </div>
+        <div id="prizeTable">
+            <h2 id="prizeTableHeader">Voittotaulukko</h2>
+            <table id="prizeTableContent">
+                <tr id="tablecontent">
+                    <td><img src="img/banana.svg" alt=""></td>
+                    <td><img src="img/banana.svg" alt=""></td>
+                    <td><img src="img/banana.svg" alt=""></td>
+                    <td> = <span id="winMultiplyer1"></span> Kolikkoa</td>
+                </tr>
+                <tr id="tablecontent">
+                    <td><img src="img/cherry.svg" alt=""></td>
+                    <td><img src="img/cherry.svg" alt=""></td>
+                    <td><img src="img/cherry.svg" alt=""></td>
+                    <td> = <span id="winMultiplyer2"></span> Kolikkoa</td>
+                </tr>
+                <tr id="tablecontent">
+                    <td><img src="img/grape.svg" alt=""></td>
+                    <td><img src="img/grape.svg" alt=""></td>
+                    <td><img src="img/grape.svg" alt=""></td>
+                    <td> = <span id="winMultiplyer3"></span> Kolikkoa</td>
+                </tr>
+                <tr id="tablecontent">
+                    <td><img src="img/orange.svg" alt=""></td>
+                    <td><img src="img/orange.svg" alt=""></td>
+                    <td><img src="img/orange.svg" alt=""></td>
+                    <td> = <span id="winMultiplyer4"></span> Kolikkoa</td>
+                </tr>
+                <tr id="tablecontent">
+                    <td><img src="img/pear.svg" alt=""></td>
+                    <td><img src="img/pear.svg" alt=""></td>
+                    <td><img src="img/pear.svg" alt=""></td>
+                    <td> = <span id="winMultiplyer5"></span> Kolikkoa</td>
+                </tr>
+                <tr id="tablecontent">
+                    <td><img src="img/watermelon.svg" alt=""></td>
+                    <td><img src="img/watermelon.svg" alt=""></td>
+                    <td><img src="img/watermelon.svg" alt=""></td>
+                    <td> = <span id="winMultiplyer6"></span> Kolikkoa</td>
+                </tr>
+                <tr id="tablecontent">
+                    <td><img src="img/star.svg" alt=""></td>
+                    <td><img src="img/star.svg" alt=""></td>
+                    <td><img src="img/star.svg" alt=""></td>
+                    <td> = <span id="winMultiplyer7"></span> Kolikkoa</td>
+                </tr>
+
+            </table>
+        </div>
+    </main>
 
     <script src="main.js"></script>
 </body>
