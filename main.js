@@ -20,7 +20,7 @@ document.getElementById('winMultiplyer3').innerHTML = winAmount[2].toFixed(2)
 document.getElementById('winMultiplyer4').innerHTML = winAmount[3].toFixed(2)
 document.getElementById('winMultiplyer5').innerHTML = winAmount[4].toFixed(2)
 document.getElementById('winMultiplyer6').innerHTML = winAmount[5].toFixed(2)
-document.getElementById('winMultiplyer7').innerHTML = winAmount[5].toFixed(2)
+document.getElementById('winMultiplyer7').innerHTML = winAmount[6].toFixed(2)
 
 
 
@@ -256,6 +256,8 @@ function betAmountAdd() {
     document.getElementById('winMultiplyer4').innerHTML = winAmount[3]
     document.getElementById('winMultiplyer5').innerHTML = winAmount[4]
     document.getElementById('winMultiplyer6').innerHTML = winAmount[5]
+    document.getElementById('winMultiplyer7').innerHTML = winAmount[6]
+
 }
 
 function betAmountRemove() {
@@ -279,4 +281,6 @@ function betAmountRemove() {
     document.getElementById('winMultiplyer4').innerHTML = winAmount[3]
     document.getElementById('winMultiplyer5').innerHTML = winAmount[4]
     document.getElementById('winMultiplyer6').innerHTML = winAmount[5]
+    document.getElementById('winMultiplyer7').innerHTML = winAmount[6]
+
 }
