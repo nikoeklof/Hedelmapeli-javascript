@@ -1,26 +1,29 @@
 const fruits = ['<img src="img/banana.svg" width="128px" height="128" alt="">', '<img src="img/cherry.svg" width="128px" height="128" alt="">', '<img src="img/grape.svg" width="128px" height="128" alt="">', '<img src="img/orange.svg" width="128px" height="128" alt="">', '<img src="img/pear.svg" width="128px" height="128" alt="">', '<img src="img/watermelon.svg" width="128px" height="128" alt="">', '<img src="img/star.svg" width="128px" height="128" alt="">']
     //Banana 0, Cherry 1, Grape 2, Orange 3, Pear 4, Watermelon 5
+const winAmountBaseline = [1, 3, 5, 10, 15, 25, 50]
 var winAmount = [1, 3, 5, 10, 15, 25, 50]
-var coins = [0, 10]
+var coins = [0, 25]
 var betAmount = 1
 var betMultiplyer = 1
+var lastLocked = false
     //lock 1, lock 2, lock 3
 var buttons = [false, false, false]
 var lastWasWin = false
     //coins index 0 = latest win, 1 = coin amount for the player
 var rolls = [getRandomInt(fruits.length), getRandomInt(fruits.length), getRandomInt(fruits.length)]
-document.getElementById('betAmountplayer').innerHTML = betAmount.toFixed(2)
-document.getElementById('coins').innerHTML = coins[1].toFixed(2)
+document.getElementById('betAmountplayer').innerHTML = betAmount
+document.getElementById('coins').innerHTML = coins[1]
 document.getElementById('roll1').innerHTML = fruits[rolls[0]]
 document.getElementById('roll2').innerHTML = fruits[rolls[1]]
 document.getElementById('roll3').innerHTML = fruits[rolls[2]]
-document.getElementById('winMultiplyer1').innerHTML = winAmount[0].toFixed(2)
-document.getElementById('winMultiplyer2').innerHTML = winAmount[1].toFixed(2)
-document.getElementById('winMultiplyer3').innerHTML = winAmount[2].toFixed(2)
-document.getElementById('winMultiplyer4').innerHTML = winAmount[3].toFixed(2)
-document.getElementById('winMultiplyer5').innerHTML = winAmount[4].toFixed(2)
-document.getElementById('winMultiplyer6').innerHTML = winAmount[5].toFixed(2)
-document.getElementById('winMultiplyer7').innerHTML = winAmount[6].toFixed(2)
+document.getElementById('winMultiplyer1').innerHTML = winAmount[0]
+document.getElementById('winMultiplyer2').innerHTML = winAmount[1]
+document.getElementById('winMultiplyer3').innerHTML = winAmount[2]
+document.getElementById('winMultiplyer4').innerHTML = winAmount[3]
+document.getElementById('winMultiplyer5').innerHTML = winAmount[4]
+document.getElementById('winMultiplyer6').innerHTML = winAmount[5]
+document.getElementById('winMultiplyer7').innerHTML = winAmount[6]
+clearLocks(true)
 
 
 
@@ -33,9 +36,29 @@ function getRandomInt2(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
 }
 
+function disableLockButtons(arg) {
+    if (arg == false) {
+        document.getElementById('lock1').innerHTML = '<button class="btn-game" onclick="lockButton(\'lock1\')">Lukitse</button></td>'
+        document.getElementById('lock2').innerHTML = '<button class="btn-game" onclick="lockButton(\'lock2\')">Lukitse</button></td>'
+        document.getElementById('lock3').innerHTML = '<button class="btn-game" onclick="lockButton(\'lock3\')">Lukitse</button></td>'
+
+    } else {
+        document.getElementById('lock1').innerHTML = '<button class="btn-game" onclick="lockButton(\'lock1\')" disabled>Lukitse</button></td>'
+        document.getElementById('lock2').innerHTML = '<button class="btn-game" onclick="lockButton(\'lock2\')" disabled>Lukitse</button></td>'
+        document.getElementById('lock3').innerHTML = '<button class="btn-game" onclick="lockButton(\'lock3\')" disabled>Lukitse</button></td>'
+
+    }
+}
+
 function spin() {
 
     if (coins[1] >= betAmount) {
+        if (buttons[0] == true || buttons[1] == true || buttons[2] == true) {
+            lastLocked = true
+        }
+        disableLockButtons(lastLocked)
+
+        lockallButtons(true)
         lastWasWin = false
         coins[1] -= betAmount
         document.getElementById('coins').innerHTML = coins[1]
@@ -43,8 +66,6 @@ function spin() {
         document.getElementById('playbutton').innerHTML = '<button type="checkbox" class="btn-game" onclick="spin()" disabled>Pelaa</button>'
         var spin1 = 0
         var spinning1 = setInterval(function() {
-
-
                 console.log(rolls)
                 if (buttons[0] == false) {
                     rolls[0] = getRandomInt(fruits.length)
@@ -91,8 +112,13 @@ function spin2() {
 
                 clearInterval(spinning2)
                 checkWins()
-                if (lastWasWin == false) {
-                    clearLocks(false)
+
+                lockallButtons(false)
+
+                if (lastLocked == true) {
+                    disableLockButtons(true)
+                    buttons = [false, false, false]
+                    lastLocked = false
                 }
                 document.getElementById('playbutton').innerHTML = '<button class="btn-game" onclick="spin()">Pelaa</button>'
             }
@@ -114,8 +140,6 @@ function lockButton(button) {
     } else {
         buttonPressed = 3
     }
-
-
     if (buttonPressed == 1) {
         if (buttons[0] == false) {
             document.getElementById('lock1').innerHTML = '<button class="btn-game-active" onclick="lockButton(\'lock1\')">Lukitse</button>'
@@ -149,11 +173,6 @@ function lockButton(button) {
 
         }
     }
-
-
-
-
-
 }
 
 function checkWins() {
@@ -212,9 +231,7 @@ function checkWins() {
             default:
                 break;
         }
-        if (lastWasWin == true) {
-            clearLocks(true);
-        }
+
     }
 
 
@@ -234,10 +251,28 @@ function clearLocks(arg) {
     }
 }
 
+function lockallButtons(arg) {
+    if (arg == true) {
+        document.getElementById('lock1').innerHTML = '<button class="btn-game" onclick="lockButton(\'lock1\')" disabled>Lukitse</button></td>'
+        document.getElementById('lock2').innerHTML = '<button class="btn-game" onclick="lockButton(\'lock2\')" disabled>Lukitse</button></td>'
+        document.getElementById('lock3').innerHTML = '<button class="btn-game" onclick="lockButton(\'lock3\')" disabled>Lukitse</button></td>'
+
+        document.getElementById('betAmountMinus').innerHTML = '<button class="btn-game" onclick="betAmountRemove()" disabled>Vähennä</button>'
+        document.getElementById('betAmountPlus').innerHTML = '<button class="btn-game" onclick="betAmountAdd()" disabled>Lisää</button>'
+    } else {
+        document.getElementById('lock1').innerHTML = '<button class="btn-game" onclick="lockButton(\'lock1\')">Lukitse</button></td>'
+        document.getElementById('lock2').innerHTML = '<button class="btn-game" onclick="lockButton(\'lock2\')">Lukitse</button></td>'
+        document.getElementById('lock3').innerHTML = '<button class="btn-game" onclick="lockButton(\'lock3\')">Lukitse</button></td>'
+
+        document.getElementById('betAmountMinus').innerHTML = '<button class="btn-game" onclick="betAmountRemove()" >Vähennä</button>'
+        document.getElementById('betAmountPlus').innerHTML = '<button class="btn-game" onclick="betAmountAdd()" >Lisää</button>'
+    }
+}
+
 function betAmountAdd() {
     if (betAmount < 20) {
         betAmount = betAmount + 1
-        betMultiplyer += .5
+        betMultiplyer += 1
         document.getElementById('betAmountplayer').innerHTML = betAmount
         document.getElementById('betAmountMinus').innerHTML = '<button class="btn-game" onclick="betAmountRemove()">Vähennä</button>'
 
@@ -246,41 +281,38 @@ function betAmountAdd() {
         document.getElementById('betAmountPlus').innerHTML = '<button class="btn-game" onclick="betAmountAdd()" disabled>Lisää</button>'
     }
     for (let i = 0; i < winAmount.length; i++) {
-        winAmount[i] = (winAmount[i] * 1.25).toFixed(2)
-
-
+        winAmount[i] = Math.round(winAmountBaseline[i] * betMultiplyer)
     }
-    document.getElementById('winMultiplyer1').innerHTML = winAmount[0]
-    document.getElementById('winMultiplyer2').innerHTML = winAmount[1]
-    document.getElementById('winMultiplyer3').innerHTML = winAmount[2]
-    document.getElementById('winMultiplyer4').innerHTML = winAmount[3]
-    document.getElementById('winMultiplyer5').innerHTML = winAmount[4]
-    document.getElementById('winMultiplyer6').innerHTML = winAmount[5]
-    document.getElementById('winMultiplyer7').innerHTML = winAmount[6]
+    document.getElementById('winMultiplyer1').innerHTML = Math.round(winAmount[0])
+    document.getElementById('winMultiplyer2').innerHTML = Math.round(winAmount[1])
+    document.getElementById('winMultiplyer3').innerHTML = Math.round(winAmount[2])
+    document.getElementById('winMultiplyer4').innerHTML = Math.round(winAmount[3])
+    document.getElementById('winMultiplyer5').innerHTML = Math.round(winAmount[4])
+    document.getElementById('winMultiplyer6').innerHTML = Math.round(winAmount[5])
+    document.getElementById('winMultiplyer7').innerHTML = Math.round(winAmount[6])
+
 
 }
 
 function betAmountRemove() {
     if (betAmount > 1) {
         betAmount = betAmount - 1
-        betMultiplyer -= .5
+        betMultiplyer -= 1
         document.getElementById('betAmountplayer').innerHTML = betAmount
         document.getElementById('betAmountPlus').innerHTML = '<button class="btn-game" onclick="betAmountAdd()">Lisää</button>'
     }
     if (betAmount == 1) {
         document.getElementById('betAmountMinus').innerHTML = '<button class="btn-game" onclick="betAmountRemove()" disabled>Vähennä</button>'
-
     }
     for (let i = 0; i < winAmount.length; i++) {
-        winAmount[i] = (winAmount[i] / 1.25).toFixed(2)
-
+        winAmount[i] = winAmount[i] - winAmountBaseline[i]
     }
-    document.getElementById('winMultiplyer1').innerHTML = winAmount[0]
-    document.getElementById('winMultiplyer2').innerHTML = winAmount[1]
-    document.getElementById('winMultiplyer3').innerHTML = winAmount[2]
-    document.getElementById('winMultiplyer4').innerHTML = winAmount[3]
-    document.getElementById('winMultiplyer5').innerHTML = winAmount[4]
-    document.getElementById('winMultiplyer6').innerHTML = winAmount[5]
-    document.getElementById('winMultiplyer7').innerHTML = winAmount[6]
+    document.getElementById('winMultiplyer1').innerHTML = Math.round(winAmount[0])
+    document.getElementById('winMultiplyer2').innerHTML = Math.round(winAmount[1])
+    document.getElementById('winMultiplyer3').innerHTML = Math.round(winAmount[2])
+    document.getElementById('winMultiplyer4').innerHTML = Math.round(winAmount[3])
+    document.getElementById('winMultiplyer5').innerHTML = Math.round(winAmount[4])
+    document.getElementById('winMultiplyer6').innerHTML = Math.round(winAmount[5])
+    document.getElementById('winMultiplyer7').innerHTML = Math.round(winAmount[6])
 
 }
