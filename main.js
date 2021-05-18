@@ -7,6 +7,7 @@ var betAmount = 1
 var betMultiplyer = 1
 var lastLocked = false
 var bank = 0
+var lastwin = 0
     //lock 1, lock 2, lock 3
 var buttons = [false, false, false]
 var lastWasWin = false
@@ -25,6 +26,7 @@ document.getElementById('winMultiplyer5').innerHTML = winAmount[4]
 document.getElementById('winMultiplyer6').innerHTML = winAmount[5]
 document.getElementById('winMultiplyer7').innerHTML = winAmount[6]
 document.getElementById('bankAmount').innerHTML = bank
+document.getElementById('lastWinAmount').innerHTML = lastwin
 document.getElementById('betAmountMinus').innerHTML = '<button class="btn-game" onclick="betAmountRemove()" disabled>Vähennä</button>'
 
 clearLocks(true)
@@ -40,7 +42,8 @@ function saveGame() {
         betMultiplyer: betMultiplyer,
         lastLocked: lastLocked,
         buttons: buttons,
-        lastWasWin: lastWasWin
+        lastWasWin: lastWasWin,
+        lastwin: lastwin
     }
     localStorage.setItem('gameSave', JSON.stringify(gamesave))
 }
@@ -56,6 +59,7 @@ function loadGame() {
     lastLocked = savedGame.lastLocked
     buttons = savedGame.buttons
     lastWasWin = savedGame.lastWasWin
+    lastwin = savedGame.lastwin
     var rolls = [getRandomInt(fruits.length), getRandomInt(fruits.length), getRandomInt(fruits.length)]
     document.getElementById('betAmountplayer').innerHTML = betAmount
     document.getElementById('coins').innerHTML = coins[1]
@@ -69,7 +73,9 @@ function loadGame() {
     document.getElementById('winMultiplyer5').innerHTML = winAmount[4]
     document.getElementById('winMultiplyer6').innerHTML = winAmount[5]
     document.getElementById('winMultiplyer7').innerHTML = winAmount[6]
+    document.getElementById('lastWinAmount').innerHTML = lastwin
     document.getElementById('bankAmount').innerHTML = bank
+
     if (betAmount == 1) {
         document.getElementById('betAmountMinus').innerHTML = '<button class="btn-game" onclick="betAmountRemove()" disabled>Vähennä</button>'
     }
@@ -77,29 +83,48 @@ function loadGame() {
 }
 window.onload = function() {
     loadGame()
-    var rolls = [getRandomInt(fruits.length), getRandomInt(fruits.length), getRandomInt(fruits.length)]
-    document.getElementById('betAmountplayer').innerHTML = betAmount
-    document.getElementById('coins').innerHTML = coins[1]
-    document.getElementById('roll1').innerHTML = fruits[rolls[0]]
-    document.getElementById('roll2').innerHTML = fruits[rolls[1]]
-    document.getElementById('roll3').innerHTML = fruits[rolls[2]]
-    document.getElementById('winMultiplyer1').innerHTML = winAmount[0]
-    document.getElementById('winMultiplyer2').innerHTML = winAmount[1]
-    document.getElementById('winMultiplyer3').innerHTML = winAmount[2]
-    document.getElementById('winMultiplyer4').innerHTML = winAmount[3]
-    document.getElementById('winMultiplyer5').innerHTML = winAmount[4]
-    document.getElementById('winMultiplyer6').innerHTML = winAmount[5]
-    document.getElementById('winMultiplyer7').innerHTML = winAmount[6]
-    document.getElementById('bankAmount').innerHTML = bank
-    if (betAmount == 1) {
+    if (typeof savedGame.lastwin == "undefined" ||
+        typeof savedGame.coins == "undefined" ||
+        typeof savedGame.winAmount == "undefined" ||
+        typeof savedGame.bank == "undefined" ||
+        typeof savedGame.betAmount == "undefined" ||
+        typeof savedGame.betMultiplyer == "undefined" ||
+        typeof savedGame.lastLocked == "undefined" ||
+        typeof savedGame.lastWasWin == "undefined") {
+        winAmount = [1, 3, 5, 10, 15, 25, 50]
+        coins = [0, 25]
+        betAmount = 1
+        bank = 0
+        betMultiplyer = 1
+        lastLocked = false
+        buttons = [false, false, false]
+        lastWasWin = false
+        lastwin = 0
+        rolls = [getRandomInt(fruits.length), getRandomInt(fruits.length), getRandomInt(fruits.length)]
+        document.getElementById('betAmountplayer').innerHTML = betAmount
+        document.getElementById('coins').innerHTML = coins[1]
+        document.getElementById('roll1').innerHTML = fruits[rolls[0]]
+        document.getElementById('roll2').innerHTML = fruits[rolls[1]]
+        document.getElementById('roll3').innerHTML = fruits[rolls[2]]
+        document.getElementById('winMultiplyer1').innerHTML = winAmount[0]
+        document.getElementById('winMultiplyer2').innerHTML = winAmount[1]
+        document.getElementById('winMultiplyer3').innerHTML = winAmount[2]
+        document.getElementById('winMultiplyer4').innerHTML = winAmount[3]
+        document.getElementById('winMultiplyer5').innerHTML = winAmount[4]
+        document.getElementById('winMultiplyer6').innerHTML = winAmount[5]
+        document.getElementById('winMultiplyer7').innerHTML = winAmount[6]
+        document.getElementById('lastWinAmount').innerHTML = lastwin
+
         document.getElementById('betAmountMinus').innerHTML = '<button class="btn-game" onclick="betAmountRemove()" disabled>Vähennä</button>'
+
+
     }
 }
 
 function withdraw() {
     let amount = prompt('Syötä määrä minkä haluat nostaa')
 
-    if (amount <= coins[1]) {
+    if (amount <= coins[1] && amount > 0) {
         let value = parseInt(amount)
         bank = bank + value
         coins[1] -= amount
@@ -107,17 +132,21 @@ function withdraw() {
         document.getElementById('coins').innerHTML = coins[1]
 
 
+    } else {
+        bank = bank
     }
 }
 
 function deposit() {
     let amount = prompt('Syötä määrä jonka haluat lisätä')
-    if (amount <= bank) {
+    if (amount <= bank && amount > 0) {
         let value = parseInt(amount)
         bank = bank - value
         coins[1] += value
         document.getElementById('bankAmount').innerHTML = bank
         document.getElementById('coins').innerHTML = coins[1]
+    } else {
+        bank = bank
     }
 }
 
@@ -132,6 +161,7 @@ function resetGame() {
         lastLocked = false
         buttons = [false, false, false]
         lastWasWin = false
+        lastwin = 0
         rolls = [getRandomInt(fruits.length), getRandomInt(fruits.length), getRandomInt(fruits.length)]
         document.getElementById('betAmountplayer').innerHTML = betAmount
         document.getElementById('coins').innerHTML = coins[1]
@@ -145,6 +175,8 @@ function resetGame() {
         document.getElementById('winMultiplyer5').innerHTML = winAmount[4]
         document.getElementById('winMultiplyer6').innerHTML = winAmount[5]
         document.getElementById('winMultiplyer7').innerHTML = winAmount[6]
+        document.getElementById('lastWinAmount').innerHTML = lastwin
+
         document.getElementById('betAmountMinus').innerHTML = '<button class="btn-game" onclick="betAmountRemove()" disabled>Vähennä</button>'
     }
 
@@ -164,12 +196,10 @@ function disableLockButtons(arg) {
         document.getElementById('lock1').innerHTML = '<button class="btn-game" onclick="lockButton(\'lock1\')">Lukitse</button></td>'
         document.getElementById('lock2').innerHTML = '<button class="btn-game" onclick="lockButton(\'lock2\')">Lukitse</button></td>'
         document.getElementById('lock3').innerHTML = '<button class="btn-game" onclick="lockButton(\'lock3\')">Lukitse</button></td>'
-
     } else {
         document.getElementById('lock1').innerHTML = '<button class="btn-game" onclick="lockButton(\'lock1\')" disabled>Lukitse</button></td>'
         document.getElementById('lock2').innerHTML = '<button class="btn-game" onclick="lockButton(\'lock2\')" disabled>Lukitse</button></td>'
         document.getElementById('lock3').innerHTML = '<button class="btn-game" onclick="lockButton(\'lock3\')" disabled>Lukitse</button></td>'
-
     }
 }
 
@@ -251,7 +281,6 @@ function spin2() {
             spin2++
         },
         300)
-
 }
 
 function lockButton(button) {
@@ -308,15 +337,22 @@ function checkWins() {
         switch (rolls[0]) {
             case 0:
                 coins[1] += winAmount[0]
+                lastWasWin = true
+                lastwin = winAmount[0]
                 document.getElementById('coins').innerHTML = coins[1]
                 document.getElementById('winAmount').innerHTML += winAmount[0] + ' Kolikkoa!'
-                lastWasWin = true
+                document.getElementById('lastWinAmount').innerHTML = lastwin
+
+
                 break;
             case 1:
                 coins[1] += winAmount[1]
                 document.getElementById('coins').innerHTML = coins[1]
                 document.getElementById('winAmount').innerHTML += winAmount[1] + ' Kolikkoa!'
                 lastWasWin = true
+                lastwin = winAmount[1]
+                document.getElementById('lastWinAmount').innerHTML = lastwin
+
                 break;
 
             case 2:
@@ -324,12 +360,20 @@ function checkWins() {
                 document.getElementById('coins').innerHTML = coins[1]
                 document.getElementById('winAmount').innerHTML += winAmount[2] + ' Kolikkoa!'
                 lastWasWin = true
+                lastwin = winAmount[2]
+                document.getElementById('lastWinAmount').innerHTML = lastwin
+
                 break;
 
             case 3:
                 coins[1] += winAmount[3]
                 document.getElementById('coins').innerHTML = coins[1]
                 document.getElementById('winAmount').innerHTML += winAmount[3] + ' Kolikkoa!'
+                lastWasWin = true
+
+                lastwin = winAmount[3]
+                document.getElementById('lastWinAmount').innerHTML = lastwin
+
                 break;
 
             case 4:
@@ -337,6 +381,9 @@ function checkWins() {
                 document.getElementById('coins').innerHTML = coins[1]
                 document.getElementById('winAmount').innerHTML += winAmount[4] + ' Kolikkoa!'
                 lastWasWin = true
+                lastwin = winAmount[4]
+                document.getElementById('lastWinAmount').innerHTML = lastwin
+
                 break;
 
             case 5:
@@ -344,12 +391,18 @@ function checkWins() {
                 document.getElementById('coins').innerHTML = coins[1]
                 document.getElementById('winAmount').innerHTML += winAmount[5] + ' Kolikkoa!'
                 lastWasWin = true
+                lastwin = winAmount[5]
+                document.getElementById('lastWinAmount').innerHTML = lastwin
+
                 break;
             case 6:
                 coins[1] += winAmount[6]
                 document.getElementById('coins').innerHTML = coins[1]
                 document.getElementById('winAmount').innerHTML += winAmount[6] + ' Kolikkoa!'
                 lastWasWin = true
+                lastwin = winAmount[6]
+                document.getElementById('lastWinAmount').innerHTML = lastwin
+
                 break;
 
 
@@ -389,8 +442,9 @@ function lockallButtons(arg) {
         document.getElementById('lock1').innerHTML = '<button class="btn-game" onclick="lockButton(\'lock1\')">Lukitse</button></td>'
         document.getElementById('lock2').innerHTML = '<button class="btn-game" onclick="lockButton(\'lock2\')">Lukitse</button></td>'
         document.getElementById('lock3').innerHTML = '<button class="btn-game" onclick="lockButton(\'lock3\')">Lukitse</button></td>'
-
-        document.getElementById('betAmountMinus').innerHTML = '<button class="btn-game" onclick="betAmountRemove()" >Vähennä</button>'
+        if (betAmount > 1) {
+            document.getElementById('betAmountMinus').innerHTML = '<button class="btn-game" onclick="betAmountRemove()" >Vähennä</button>'
+        }
         document.getElementById('betAmountPlus').innerHTML = '<button class="btn-game" onclick="betAmountAdd()" >Lisää</button>'
     }
 }
@@ -416,8 +470,6 @@ function betAmountAdd() {
     document.getElementById('winMultiplyer5').innerHTML = Math.round(winAmount[4])
     document.getElementById('winMultiplyer6').innerHTML = Math.round(winAmount[5])
     document.getElementById('winMultiplyer7').innerHTML = Math.round(winAmount[6])
-
-
 }
 
 function betAmountRemove() {
