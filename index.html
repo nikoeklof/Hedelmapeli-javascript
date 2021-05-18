@@ -14,9 +14,13 @@
     <div id="header">
         <h1 class="main-header">Hedelmäpeli</h1>
         <div id="navbar">
+
             <button class="btn-header" type="button" onclick="saveGame()">Tallenna peli</button>
             <button class="btn-header" type="button" onclick="deposit()">Lisää kolikoita</button>
             <button class="btn-header" type="button" onclick="withdraw()">Nosta voittoja</button>
+            <button class="btn-header" type="button" onclick="resetGame()">Nollaa peli</button>
+            <button class="btn-header" type="button" onclick="loadGame()">Lataa tallennus</button>
+            <h4>Pankissa: <br><span id="bankAmount"></span> Kolikkoa</h4>
         </div>
     </div>
     <main id="table">
